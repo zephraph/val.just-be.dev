@@ -1,3 +1,7 @@
 name = "val"
 main = "src/index.ts"
 compatibility_date = "2024-09-27"
+routes = [
+  { pattern = "val.just-be.dev", custom_domain = true },
+  { pattern = "*val.just-be.dev/*", zone_name = "just-be.dev" },
+]
