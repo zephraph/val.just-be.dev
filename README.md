@@ -5,3 +5,7 @@ Note that to use this you'll be required to purchase advanced TLS certs from clo
 
 If/when val.town supports this it'll be easier just to go through them. Upvote [this discussion](https://github.com/val-town/val-town-product/discussions/2)
 if it's a feature you'd like to see.
+
+## License
+
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
