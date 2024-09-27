@@ -27,6 +27,9 @@ export default {
   ): Promise<Response> {
     // Get the original request URL
     const url = new URL(request.url);
+    if (url.hostname === "val.just-be.dev") {
+      return Response.redirect("https://www.val.town/u/just_be", 302);
+    }
     if (!url.hostname.endsWith(".val.just-be.dev")) {
       return new Response("Not found", { status: 404 });
     }
