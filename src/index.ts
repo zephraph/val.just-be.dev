@@ -9,22 +9,43 @@
  */
 
 export interface Env {
-	// Example binding to KV. Learn more at https://developers.cloudflare.com/workers/runtime-apis/kv/
-	// MY_KV_NAMESPACE: KVNamespace;
-	//
-	// Example binding to Durable Object. Learn more at https://developers.cloudflare.com/workers/runtime-apis/durable-objects/
-	// MY_DURABLE_OBJECT: DurableObjectNamespace;
-	//
-	// Example binding to R2. Learn more at https://developers.cloudflare.com/workers/runtime-apis/r2/
-	// MY_BUCKET: R2Bucket;
+  // Example binding to KV. Learn more at https://developers.cloudflare.com/workers/runtime-apis/kv/
+  // MY_KV_NAMESPACE: KVNamespace;
+  //
+  // Example binding to Durable Object. Learn more at https://developers.cloudflare.com/workers/runtime-apis/durable-objects/
+  // MY_DURABLE_OBJECT: DurableObjectNamespace;
+  //
+  // Example binding to R2. Learn more at https://developers.cloudflare.com/workers/runtime-apis/r2/
+  // MY_BUCKET: R2Bucket;
 }
 
 export default {
-	async fetch(
-		request: Request,
-		env: Env,
-		ctx: ExecutionContext
-	): Promise<Response> {
-		return new Response("Hello World!");
-	},
+  async fetch(
+    request: Request,
+    env: Env,
+    ctx: ExecutionContext
+  ): Promise<Response> {
+    // Get the original request URL
+    const url = new URL(request.url);
+    if (!url.hostname.endsWith(".val.just-be.dev")) {
+      return new Response("Not found", { status: 404 });
+    }
+    const valName = url.hostname.replace(".val.just-be.dev", "");
+
+    if (valName.includes(".")) {
+      return new Response("Not found", { status: 404 });
+    }
+
+    // Construct the proxy URL
+    const newUrl = `https://just_be-${valName}.web.val.run${url.pathname}${url.search}`;
+
+    // Create a new request with the modified URL
+    const modifiedRequest = new Request(newUrl, {
+      method: request.method,
+      headers: request.headers,
+      body: request.body,
+    });
+
+    return fetch(modifiedRequest);
+  },
 };
