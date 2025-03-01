@@ -28,7 +28,7 @@ export default {
     // Get the original request URL
     const url = new URL(request.url);
     if (url.hostname === "val.just-be.dev") {
-      return Response.redirect("https://www.val.town/u/just_be", 302);
+      return Response.redirect("https://www.val.town/u/justbe", 302);
     }
     if (!url.hostname.endsWith(".val.just-be.dev")) {
       return new Response("Not found", { status: 404 });
@@ -40,7 +40,7 @@ export default {
     }
 
     // Construct the proxy URL
-    const newUrl = `https://just_be-${valName}.web.val.run${url.pathname}${url.search}`;
+    const newUrl = `https://justbe-${valName}.web.val.run${url.pathname}${url.search}`;
 
     // Create a new request with the modified URL
     const modifiedRequest = new Request(newUrl, {
